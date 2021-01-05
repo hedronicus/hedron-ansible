@@ -10,14 +10,10 @@
 
 - name: Configure SSH keys
   authorized_key:
-    user: "{{ item.name }}"
+    user: "{{ item }}"
     state: present
-    key: "{{ item.key }}"
-  with_items:
-    - name: piajesse
-      key: https://raw.githubusercontent.com/piajesse/hedron-ansible/main/piajesse.keys
-    - name: ave
-      key: https://raw.githubusercontent.com/piajesse/hedron-ansible/main/ave.keys
+    key: "{{ lookup('file', 'files/' + item + '.keys') }}"
+  with_items: [piajesse, ave]
 
 - name: Ensure passwordless sudo
   lineinfile:
