@@ -1,0 +1,26 @@
+- name: Configure users
+  user:
+    name: "{{ item }}"
+    groups: adm,staff,sudo
+    shell: /bin/bash
+    append: yes
+  with_items:
+    - piajesse
+    - ave
+
+- name: Configure SSH keys
+  authorized_key:
+    user: "{{ item.name }}"
+    state: present
+    key: "{{ item.key }}"
+  with_items:
+    - name: piajesse
+      key: https://raw.githubusercontent.com/piajesse/hedron-ansible/main/piajesse.keys
+    - name: ave
+      key: https://raw.githubusercontent.com/piajesse/hedron-ansible/main/ave.keys
+
+- name: Ensure passwordless sudo
+  lineinfile:
+    line: "%sudo	ALL=(ALL:ALL) NOPASSWD:ALL"
+    dest: /etc/sudoers
+    regexp: "^%sudo	ALL=\\(ALL:ALL\\).*"
