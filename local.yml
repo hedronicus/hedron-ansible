@@ -1,3 +1,8 @@
 - hosts: localhost
   roles:
     - users
+    - ansible-pull
+  vars:
+    additional_playbooks:
+      docker.hhacker.space:
+        - name: docker

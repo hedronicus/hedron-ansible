@@ -1,0 +1,28 @@
+- name: install docker depends
+  apt:
+    pkg: 
+      - apt-transport-https
+      - ca-certificates
+      - gnupg-agent
+- name: trust docker apt key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+- name: add docker repo
+  apt_repository:
+    update_cache: yes
+    repo: deb https://download.docker.com/linux/debian buster stable
+- name: install docker
+  apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+- name: Configure users
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  with_items:
+    - piajesse
+    - ave
