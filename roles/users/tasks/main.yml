@@ -10,10 +10,14 @@
 
 - name: Configure SSH keys
   authorized_key:
-    user: "{{ item }}"
+    user: "{{ item.local }}"
     state: present
-    key: "{{ lookup('file', 'files/' + item + '.keys') }}"
-  with_items: [piajesse, ave]
+    key: "https://github.com/{{ item.github }}.keys"
+  with_items:
+    - github: piajesse
+      local: piajesse
+    - github: thesage1014
+      local: ave
 
 - name: Ensure passwordless sudo
   lineinfile:

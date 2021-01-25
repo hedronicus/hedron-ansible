@@ -1,2 +1,0 @@
-playbooks:
-  docker: https://github.com/hedronicus/hedron-ansible.git
